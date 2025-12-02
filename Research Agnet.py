@@ -34,3 +34,4 @@ while userInput.lower() != 'exit':
     write_to_file(userInput, aiResponse, count)
     userInput = input("Who else do you want to learn about? *You can always type exit to leave*\n")
     count += 1
+print("Good-bye. Thank you for using my program")

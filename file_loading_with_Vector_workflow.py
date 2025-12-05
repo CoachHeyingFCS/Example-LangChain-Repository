@@ -44,10 +44,11 @@ parser = StrOutputParser()
 chain = prompt | model | parser
 
 def loadPDF():
-    # Pull PDF into code
     loader = PyPDFLoader(PDF_PATH)
-    #Split PDF into individual pages
     pages = loader.load_and_split()
+    return pages
+
+def chunk_PDF(document):
     #Creates the tool that will split the pages into individual chunks based on the size of chunk you want
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size = 700,
@@ -56,8 +57,8 @@ def loadPDF():
         add_start_index = True
     )
     #Does the splitting
-    chunks = text_splitter.split_documents(pages)
-    print(f"Split {len(pages)} pages into {len(chunks)} chunks")
+    chunks = text_splitter.split_documents(document)
+    print(f"Split {len(document)} pages into {len(chunks)} chunks")
     return chunks
     
 def create_vectors(chunks):
@@ -75,8 +76,10 @@ def format_documents(sections):
     return outputString
 
 def ask(query):
-    #Load the Documents and chunk them
-    document_chunks = loadPDF()
+    #Load the Documents
+    pdf = loadPDF()
+    #Chunk PDF
+    document_chunks = chunk_PDF(pdf)
     #Create the vectors and store them in a Chroma database
     vectors = create_vectors(document_chunks)
     #Retreive the vectors that are relevant

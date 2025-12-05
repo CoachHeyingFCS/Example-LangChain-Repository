@@ -62,9 +62,9 @@ def chunk_PDF(document):
     return chunks
     
 def create_vectors(chunks):
-    #Create vector database for pdf so it is easier for LLM to read
+    #Create an object that will be used in the from_documents function to creat the vector database
     embedding = FastEmbedEmbeddings()
-    #Stores the vector database in a Chroma database (also stored in the repository.)
+    #Creates and stores the vector database in a Chroma database (also stored in the repository.)
     database = Chroma.from_documents(documents=chunks, embedding=embedding, persist_directory=DB_DIR)
     #returns the Chroma database of vectors
     return database

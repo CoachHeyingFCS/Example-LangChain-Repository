@@ -38,17 +38,19 @@ def loadPDF():
     #Gets the format in a document file
     document = loader.load_and_split()
     #Stores all of the text in a single string
-    full_text = ""
-    for page in document:
-        thisPage = page.page_content
-        full_text += thisPage
-    return thisPage
+    return document
+
+def format_documents(sections):
+    outputString = ""
+    for s in sections:
+        outputString += s.page_content
+    return outputString
 
 def ask(query):
-    pdfText = loadPDF()
+    pdf = loadPDF()
+    pdfText = format_documents(pdf)
     result = chain.invoke({"input": query,"context":pdfText}) 
     print(result)
-
 
 user_input = input("What is your question?\n\n")
 while user_input.lower() != 'exit':

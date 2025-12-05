@@ -8,20 +8,6 @@ PDF_PATH = "/workspaces/Example-LangChain-Repository/Understanding Modelfile in 
 DB_DIR = "./sql_chroma_db"
 MODEL_NAME = "test-llm"
 
-def loadPDF():
-    # Pull PDF into code
-    loader = PyPDFLoader(PDF_PATH)
-    #Gets the format in a document file
-    document = loader.load_and_split()
-    #Stores all of the text in a single string
-    full_text = ""
-    for page in document:
-        thisPage = page.page_content
-        full_text += thisPage
-    
-    return thisPage
-
-
 model = ChatOllama(model= MODEL_NAME)
 prompt = ChatPromptTemplate.from_template(
     """ 
@@ -45,8 +31,25 @@ prompt = ChatPromptTemplate.from_template(
 )
 parser = StrOutputParser()
 
+chain = prompt | model | parser
+
+def loadPDF():
+    # Pull PDF into code
+    loader = PyPDFLoader(PDF_PATH)
+    #Gets the format in a document file
+    document = loader.load_and_split()
+    #Stores all of the text in a single string
+    full_text = ""
+    for page in document:
+        thisPage = page.page_content
+        full_text += thisPage
+    
+    return thisPage
+
+
+
+
 def ask(query):
-    chain = prompt | model | parser
     pdfText = loadPDF()
     # invoke chain
     result = chain.invoke({"input": query,"context":pdfText})  # print results

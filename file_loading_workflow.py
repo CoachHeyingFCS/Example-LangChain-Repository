@@ -43,17 +43,12 @@ def loadPDF():
     for page in document:
         thisPage = page.page_content
         full_text += thisPage
-    
     return thisPage
-
-
-
 
 def ask(query):
     pdfText = loadPDF()
-    # invoke chain
-    result = chain.invoke({"input": query,"context":pdfText})  # print results
-    print(result)#["answer"])
+    result = chain.invoke({"input": query,"context":pdfText}) 
+    print(result)
 
 
 user_input = input("What is your question?\n\n")

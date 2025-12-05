@@ -1,7 +1,7 @@
-from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.chat_models import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate 
 from langchain_core.output_parsers import StrOutputParser 
+from langchain_community.document_loaders import PyPDFLoader
 
 #--Important Variables--#
 PDF_PATH = "/workspaces/Example-LangChain-Repository/Understanding Modelfile in Ollama.pdf"

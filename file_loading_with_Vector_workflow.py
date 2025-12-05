@@ -58,7 +58,9 @@ def loadPDF():
     #Does the splitting
     chunks = text_splitter.split_documents(pages)
     print(f"Split {len(pages)} pages into {len(chunks)} chunks")
-
+    return chunks
+    
+def create_vectors(documents)
     #Create vector database for pdf so it is easier for LLM to read
     embedding = FastEmbedEmbeddings()
     #Stores the vector database in a Chroma database (also stored in the repository.)
@@ -73,8 +75,10 @@ def format_documents(sections):
     return outputString
 
 def ask(query):
-    #Load Chroma vector database
-    vectors = loadPDF()
+    #Load the Documents and chunk them
+    document_chunks = loadPDF()
+    #Create the vectors and store them in a Chroma database
+    vectors = create_vectors(document_chunks)
     #Retreive the vectors that are relevant
     retriever = vectors.as_retriever(
         search_type = "similarity_score_threshold",

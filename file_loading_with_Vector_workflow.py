@@ -16,6 +16,7 @@ PDF_PATH = "/workspaces/Example-LangChain-Repository/Understanding Modelfile in 
 DB_DIR = "./sql_chroma_db"
 MODEL_NAME = "test-llm"
 
+#Setting up variables in my chain
 model = ChatOllama(model= MODEL_NAME)
 prompt = ChatPromptTemplate.from_template(
     """ 
@@ -39,24 +40,30 @@ prompt = ChatPromptTemplate.from_template(
 )
 parser = StrOutputParser()
 
+#Invoking my chain
 chain = prompt | model | parser
 
 def loadPDF():
     # Pull PDF into code
     loader = PyPDFLoader(PDF_PATH)
+    #Split PDF into individual pages
     pages = loader.load_and_split()
-
+    #Creates the tool that will split the pages into individual chunks based on the size of chunk you want
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size = 700,
         chunk_overlap = 200,
         length_function = len,
         add_start_index = True
     )
+    #Does the splitting
     chunks = text_splitter.split_documents(pages)
     print(f"Split {len(pages)} pages into {len(chunks)} chunks")
 
+    #Create vector database for pdf so it is easier for LLM to read
     embedding = FastEmbedEmbeddings()
+    #Stores the vector database in a Chroma database (also stored in the repository.)
     database = Chroma.from_documents(documents=chunks, embedding=embedding, persist_directory=DB_DIR)
+    #returns the Chroma database of vectors
     return database
 
 def format_documents(sections):
@@ -66,17 +73,22 @@ def format_documents(sections):
     return outputString
 
 def ask(query):
+    #Load Chroma vector database
     vectors = loadPDF()
+    #Retreive the vectors that are relevant
     retriever = vectors.as_retriever(
         search_type = "similarity_score_threshold",
         search_kwargs={
             "k": 2,
+            #This is the threashold for how relevant a chunk should be to be considered helpful
             "score_threshold": 0.5,
         }
     )
+    #Get the relevant chunks of document from the vectors
     document_chain = retriever.invoke(query)
+    #make the relevant chunks of documents into a string
     context = format_documents(document_chain)
-    # invoke chain
+    # invoke chain with the string of the query and the context for the prompt
     result = chain.invoke({"input": query, "context":context}) 
     # print results
     print(result)

@@ -5,7 +5,6 @@ from langchain_community.document_loaders import PyPDFLoader
 
 #--Important Variables--#
 PDF_PATH = "/workspaces/Example-LangChain-Repository/Understanding Modelfile in Ollama.pdf"
-DB_DIR = "./sql_chroma_db"
 MODEL_NAME = "test-llm"
 
 model = ChatOllama(model= MODEL_NAME)

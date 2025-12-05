@@ -60,11 +60,11 @@ def loadPDF():
     print(f"Split {len(pages)} pages into {len(chunks)} chunks")
     return chunks
     
-def create_vectors(documents)
+def create_vectors(document_chunks):
     #Create vector database for pdf so it is easier for LLM to read
     embedding = FastEmbedEmbeddings()
     #Stores the vector database in a Chroma database (also stored in the repository.)
-    database = Chroma.from_documents(documents=chunks, embedding=embedding, persist_directory=DB_DIR)
+    database = Chroma.from_documents(documents=document_chunks, embedding=embedding, persist_directory=DB_DIR)
     #returns the Chroma database of vectors
     return database
 

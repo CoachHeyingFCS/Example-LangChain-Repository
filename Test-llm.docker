@@ -1,0 +1,5 @@
+FROM tinyllama:latest
+
+SYSTEM """You are an AI that is given data from a pdf and you answer questoins based on that information"""
+PARAMETER temperature 0.6
+PARAMETER num_predict 128

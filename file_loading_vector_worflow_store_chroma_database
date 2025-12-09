@@ -40,7 +40,7 @@ prompt = ChatPromptTemplate.from_template(
 )
 parser = StrOutputParser()
 
-#Invoking my chain
+#Creating my chain
 chain = prompt | model | parser
 
 def loadPDF():

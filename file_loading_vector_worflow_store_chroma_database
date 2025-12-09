@@ -86,7 +86,7 @@ def ask(query, retriever):
     # print results
     print(result)
 
-
+## MAIN USER INTERACTIONS START HERE######
 user_input = input("What is your question?\n\n")
 #Load the Documents
 pdf = loadPDF()
@@ -94,7 +94,7 @@ pdf = loadPDF()
 document_chunks = chunk_PDF(pdf)
 #Create the vectors and store them in a Chroma database
 vectors = build_or_load_vectors(document_chunks)
-#Retreive the vectors that are relevant
+#Build the retriver that will determine relevant vectors
 retriever = vectors.as_retriever(
     search_type = "similarity_score_threshold",
     search_kwargs={

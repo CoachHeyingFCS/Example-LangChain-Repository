@@ -1,7 +1,3 @@
-#IMPORTANT: This solution is not great and sometimes I had to ask the same question multiple times.
-#I prioritized reability and making it similar to the other code in this library and lost some acccuracy/speed
-#Feel free to explore some other options for creating the chain as this one doesn't use the vectors to the best of their ability
-
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate  
 from langchain_core.output_parsers import StrOutputParser
@@ -98,6 +94,7 @@ vectors = build_or_load_vectors(document_chunks)
 retriever = vectors.as_retriever(
     search_type = "similarity_score_threshold",
     search_kwargs={
+        #If you get “I don't have enough context…” too often, increase k (e.g., 4–6) or lower score_threshold (e.g., 0.35). If you get hallucinations, do the opposite.
         "k": 2,
         #This is the threashold for how relevant a chunk should be to be considered helpful
         "score_threshold": 0.5,

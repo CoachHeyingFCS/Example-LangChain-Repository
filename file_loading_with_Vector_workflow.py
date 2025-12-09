@@ -85,6 +85,7 @@ def ask(query):
     retriever = vectors.as_retriever(
         search_type = "similarity_score_threshold",
         search_kwargs={
+            #If you get “I don't have enough context…” too often, increase k (e.g., 4–6) or lower score_threshold (e.g., 0.35). If you get hallucinations, do the opposite.
             "k": 2,
             #This is the threashold for how relevant a chunk should be to be considered helpful
             "score_threshold": 0.5,

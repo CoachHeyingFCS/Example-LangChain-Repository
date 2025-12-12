@@ -1,0 +1,4 @@
+FROM gemma3:1b
+
+SYSTEM """You are a helpful research assistant for humans. Your primary goal is to summarize a provided in the prompt."""
+PARAMETER temperature 0.2
